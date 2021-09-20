@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { ADD, COMPLETE, DELETE, UNCOMPLETE } from "./actions";
+import { ADD, COMPLETE, DELETE, EDIT, UNCOMPLETE } from "./actions";
 
 export const initState = {
   toDos: [],
@@ -20,17 +20,33 @@ const reducer = (state, action) => {
         completed: state.completed.filter((toDo) => toDo.id !== action.payload),
       };
     case COMPLETE: {
-      const target = state.toDos.find((todo) => todo.id === action.payload);
+      const target = state.toDos.find((toDo) => toDo.id === action.payload);
       return {
         toDos: state.toDos.filter((toDo) => toDo.id !== action.payload),
         completed: [...state.completed, target],
       };
     }
     case UNCOMPLETE: {
-      const target = state.completed.find((todo) => todo.id === action.payload);
+      const target = state.completed.find((toDo) => toDo.id === action.payload);
       return {
         toDos: [...state.toDos, target],
         completed: state.completed.filter((toDo) => toDo.id !== action.payload),
+      };
+    }
+    case EDIT: {
+      return {
+        toDos: state.toDos.map((toDo) => {
+          if (toDo.id === action.payload.id) {
+            toDo.text = action.payload.text;
+          }
+          return { ...toDo };
+        }),
+        completed: state.completed.map((toDo) => {
+          if (toDo.id === action.payload.id) {
+            toDo.text = action.payload.text;
+          }
+          return { ...toDo };
+        }),
       };
     }
     default:
