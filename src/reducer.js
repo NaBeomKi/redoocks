@@ -1,14 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
+import { ADD, COMPLETE, DELETE, UNCOMPLETE } from "./actions";
 
 export const initState = {
   toDos: [],
   completed: [],
 };
-
-export const ADD = "ADD";
-export const DELETE = "DELETE";
-export const COMPLETE = "COMPLETE";
-export const UNCOMPLETE = "UNCOMPLETE";
 
 const reducer = (state, action) => {
   console.log(state);
